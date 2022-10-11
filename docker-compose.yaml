@@ -1,0 +1,35 @@
+version: "3.0"
+services:
+  kerberos:
+    container_name: kerberos
+    hostname: kerberos
+    domainname: example.com
+    entrypoint: /app/start-kdc.sh
+    build: kerberos
+    volumes:
+      - keytabs:/var/keytabs
+    tty: true 
+    ports:
+      - "88:88/udp"
+      - "749:749/udp"
+      - "88:88/tcp"
+      - "749:749/tcp"
+  hadoop:
+    container_name: hadoop
+    hostname: hadoop
+    domainname: example.com
+    build: hadoop
+    volumes:
+      - keytabs:/var/keytabs
+    tty: true
+    ports:
+      - 9870:9870
+      - 9864:9864
+      - 9866:9866
+      - 8088:8088
+      - 9000:9000
+
+
+
+volumes:
+  keytabs:
